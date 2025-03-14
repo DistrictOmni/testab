@@ -2,7 +2,7 @@
 
 namespace App\Modules\Students\Controllers;
 
-use App\Core\BaseController;
+use App\Core\Controllers\BaseController;
 
 class StudentController extends BaseController
 {

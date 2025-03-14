@@ -81,34 +81,63 @@ class Application
         if (isset($this->logger)) {
             $this->logger->info("Application started.");
         }
-
-        // Dispatch the route
+    
+        // Log the incoming request
         $httpMethod = $_SERVER['REQUEST_METHOD'];
         $uri = $_SERVER['REQUEST_URI'];
-
+        if (isset($this->logger)) {
+            $this->logger->info("Incoming request: {$httpMethod} {$uri}");
+        }
+    
+        // Dispatch the route
         $routeInfo = $this->router->dispatch($httpMethod, $uri);
-
+    
+        // Log the route dispatch outcome
+        if (isset($this->logger)) {
+            $this->logger->info("Route dispatch result: " . $routeInfo[0]);
+        }
+    
         // Handle route (dispatch to controller method)
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::FOUND:
                 $handler = $routeInfo[1];
                 $params = $routeInfo[2];
+                
+                // Log handler and parameters
+                if (isset($this->logger)) {
+                    $this->logger->info("Route found. Handler: " . json_encode($handler) . ", Params: " . json_encode($params));
+                }
+    
                 // Call the controller and method
                 list($controller, $method) = $handler;
                 $controller = new $controller();
+                
+                // Log before calling the controller method
+                if (isset($this->logger)) {
+                    $this->logger->info("Calling method {$method} of controller {$controller}");
+                }
+    
                 call_user_func_array([$controller, $method], $params);
                 break;
-
+    
             case \FastRoute\Dispatcher::NOT_FOUND:
+                // Log 404 error
+                if (isset($this->logger)) {
+                    $this->logger->debug("404 Not Found: {$uri}");
+                }
                 echo '404 Not Found';
                 break;
-
+    
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+                // Log 405 error
+                if (isset($this->logger)) {
+                    $this->logger->warning("405 Method Not Allowed: {$uri}");
+                }
                 echo '405 Method Not Allowed';
                 break;
         }
     }
-
+    
     /**
      * Throws an error for the UI if required environment variable is not set.
      *
