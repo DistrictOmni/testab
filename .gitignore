@@ -1,0 +1,5 @@
+#! Important Required for App
+
+vendor/ 
+*.env
+/logs 
