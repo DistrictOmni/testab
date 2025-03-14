@@ -7,8 +7,7 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        // Render dashboard or appropriate content for /test route
-        $data = ['pageTitle' => 'Test Page'];
-        $this->render('test-page', $data);
+        // Simple echo for testing
+        echo "Test route is working!";
     }
 }

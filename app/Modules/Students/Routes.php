@@ -5,13 +5,10 @@ use FastRoute\RouteCollector;
 
 class Routes
 {
-    public static function defineRoutes(RouteCollector $r)
-    {
-        // Existing routes
-        $r->addRoute('GET', '/students', ['App\Modules\Students\Controllers\StudentController', 'index']);
-        $r->addRoute('GET', '/students/{id:\d+}', ['App\Modules\Students\Controllers\StudentController', 'show']);
+// In Routes.php (example)
+public static function defineRoutes(RouteCollector $r)
+{
+    $r->addRoute('GET', '/test', ['App\Controllers\DashboardController', 'index']);
+}
 
-        // New test route
-        $r->addRoute('GET', '/test', ['App\Controllers\DashboardController', 'index']);
-    }
 }

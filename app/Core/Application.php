@@ -20,7 +20,8 @@ class Application
         $this->initializeEnv();
 
         // Initialize the router instance and register routes from modules
-        $this->router = new Router($this->initializeDispatcher());
+// In Application.php
+$this->router = new Router(); // No need to pass anything
     }
 
     /**

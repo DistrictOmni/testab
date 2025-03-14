@@ -8,17 +8,15 @@ class Router
 {
     private $dispatcher;
 
-    public function __construct($routes = null)
+    public function __construct()
     {
-        // If no routes are passed, create an empty dispatcher
-        if ($routes) {
-            $this->dispatcher = \FastRoute\simpleDispatcher(function(RouteCollector $r) use ($routes) {
-                // Register the provided routes
-                foreach ($routes as $route) {
-                    $r->addRoute($route['method'], $route['route'], $route['handler']);
-                }
-            });
-        }
+        // Initialize the dispatcher directly inside the constructor
+        $this->dispatcher = \FastRoute\simpleDispatcher(function(RouteCollector $r) {
+            // Register routes here or you can pass them dynamically
+            // For example, you can call your routes definition classes here
+            \App\Modules\Students\Routes::defineRoutes($r);
+            \App\Modules\Faculty\Routes::defineRoutes($r);
+        });
     }
 
     /**
